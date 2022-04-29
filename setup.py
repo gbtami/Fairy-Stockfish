@@ -48,6 +48,6 @@ setup(name="pyffish", version="0.0.71",
       license="GPL3",
       classifiers=CLASSIFIERS,
       url="https://github.com/gbtami/Fairy-Stockfish",
-      python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
+      python_requires=">=3.8",
       ext_modules=[pyffish_module]
       )
