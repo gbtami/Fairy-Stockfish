@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,9 +29,27 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.14"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
-          CIBW_SKIP: "pp* *-win32 cp36-* cp37-*"
+          CIBW_SKIP: "pp* *-win32 *-manylinux_i686 *-musllinux_* cp36-* cp37-*"
           CIBW_TEST_COMMAND: python {project}/test.py
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
+          name: dist
           path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Build sdist
+        run: python setup.py sdist
+
+      - uses: actions/upload-artifact@v3.0.0
+        with:
+          name: dist
+          path: dist/*.tar.gz
