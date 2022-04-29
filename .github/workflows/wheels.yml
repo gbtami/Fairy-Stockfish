@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest]
-        python-version: [38, 39, 310]
 
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +29,7 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.14"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
-          CIBW_SKIP: "pp*"
+          CIBW_SKIP: "pp* *-win32 cp36-* cp37-*"
 
       - uses: actions/upload-artifact@v2
         with:
