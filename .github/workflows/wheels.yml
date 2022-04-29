@@ -30,6 +30,7 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: "10.14"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_SKIP: "pp* *-win32 cp36-* cp37-*"
+          CIBW_TEST_COMMAND: "python test.py"
 
       - uses: actions/upload-artifact@v2
         with:
