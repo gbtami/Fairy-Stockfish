@@ -3,10 +3,10 @@ name: Wheels
 on: 
     push:
       branches:
-        - master
+        [ master, duck ]
     pull_request:
       branches:
-        - master
+        [ master ]
 
 jobs:
   build_wheels:
