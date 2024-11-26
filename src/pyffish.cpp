@@ -410,13 +410,13 @@ static PyMethodDef PyFFishMethods[] = {
 
 static PyModuleDef pyffishmodule = {
     PyModuleDef_HEAD_INIT,
-    "pyffish",
-    "Fairy-Stockfish extension module.",
+    "pyffish_alice",
+    "Fairy-Stockfish alice branch extension module.",
     -1,
     PyFFishMethods,
 };
 
-PyMODINIT_FUNC PyInit_pyffish() {
+PyMODINIT_FUNC PyInit_pyffish_alice() {
     PyObject* module;
 
     module = PyModule_Create(&pyffishmodule);

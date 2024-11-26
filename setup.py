@@ -35,12 +35,12 @@ except ValueError:
     print(f"ffish_source_file {ffish_source_file} was not found in sources {sources}.")
 
 pyffish_module = Extension(
-    "pyffish",
+    "pyffish_alice",
     sources=sources,
     extra_compile_args=args)
 
-setup(name="pyffish", version="0.0.84",
-      description="Fairy-Stockfish Python wrapper",
+setup(name="pyffish_alice", version="0.0.84",
+      description="Fairy-Stockfish alice branch Python wrapper",
       long_description=long_description,
       long_description_content_type="text/markdown",
       author="Bajusz Tamás",
