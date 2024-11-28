@@ -40,7 +40,7 @@ pyffish_module = Extension(
     extra_compile_args=args)
 
 setup(name="pyffish_alice", version="0.0.1",
-      description="Fairy-Stockfish alice branch Python wrapper",
+      description="Fairy-Stockfish alice branch Python wrapper (experimental!)",
       long_description=long_description,
       long_description_content_type="text/markdown",
       author="Bajusz Tamás",
