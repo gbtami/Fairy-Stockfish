@@ -4,6 +4,7 @@ on:
     push:
       branches:
         - master
+        - alice-bindings
     pull_request:
       branches:
         - master
