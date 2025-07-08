@@ -2,7 +2,7 @@
 
 import faulthandler
 import unittest
-import pyffish as sf
+import pyffish_alice as sf
 
 faulthandler.enable()
 
