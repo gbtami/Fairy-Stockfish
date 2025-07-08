@@ -3,10 +3,10 @@ name: Wheels
 on: 
     push:
       branches:
-        - master
+        - alice
     pull_request:
       branches:
-        - master
+        - alice
 
 jobs:
   build_wheels:
