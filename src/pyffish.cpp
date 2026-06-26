@@ -54,7 +54,7 @@ void buildPosition(Position& pos, StateListPtr& states, const char *variant, con
 }
 
 extern "C" PyObject* pyffish_version(PyObject* self) {
-    return Py_BuildValue("(iii)", 0, 0, 2);
+    return Py_BuildValue("(iii)", 0, 0, 3);
 }
 
 extern "C" PyObject* pyffish_info(PyObject* self) {
@@ -200,7 +200,7 @@ extern "C" PyObject* pyffish_getSANmoves(PyObject* self, PyObject *args) {
             return NULL;
         }
     }
-    PyObject *Result = Py_BuildValue("O", sanMoves);  
+    PyObject *Result = Py_BuildValue("O", sanMoves);
     Py_XDECREF(sanMoves);
     return Result;
 }
@@ -226,7 +226,7 @@ extern "C" PyObject* pyffish_legalMoves(PyObject* self, PyObject *args) {
         Py_XDECREF(moveStr);
     }
 
-    PyObject *Result = Py_BuildValue("O", legalMoves);  
+    PyObject *Result = Py_BuildValue("O", legalMoves);
     Py_XDECREF(legalMoves);
     return Result;
 }
