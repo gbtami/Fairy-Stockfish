@@ -410,20 +410,20 @@ static PyMethodDef PyFFishMethods[] = {
 
 static PyModuleDef pyffishmodule = {
     PyModuleDef_HEAD_INIT,
-    "pyffish_alice",
+    "_pyffish_alice",
     "Fairy-Stockfish alice branch extension module.",
     -1,
     PyFFishMethods,
 };
 
-PyMODINIT_FUNC PyInit_pyffish_alice() {
+PyMODINIT_FUNC PyInit__pyffish_alice() {
     PyObject* module;
 
     module = PyModule_Create(&pyffishmodule);
     if (module == NULL) {
         return NULL;
     }
-    PyFFishError = PyErr_NewException("pyffish.error", NULL, NULL);
+    PyFFishError = PyErr_NewException("pyffish_alice.error", NULL, NULL);
     Py_INCREF(PyFFishError);
     PyModule_AddObject(module, "error", PyFFishError);
 

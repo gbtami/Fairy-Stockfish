@@ -35,7 +35,7 @@ except ValueError:
     print(f"ffish_source_file {ffish_source_file} was not found in sources {sources}.")
 
 pyffish_module = Extension(
-    "pyffish_alice",
+    "pyffish_alice._pyffish_alice",
     sources=sources,
     extra_compile_args=args)
 
@@ -49,5 +49,7 @@ setup(name="pyffish_alice", version="0.0.3",
       classifiers=CLASSIFIERS,
       url="https://github.com/gbtami/Fairy-Stockfish",
       python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
-      ext_modules=[pyffish_module]
+      packages=["pyffish_alice"],
+      package_data={"pyffish_alice": ["__init__.pyi", "py.typed"]},
+      ext_modules=[pyffish_module],
       )
