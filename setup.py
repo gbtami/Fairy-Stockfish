@@ -39,7 +39,7 @@ pyffish_module = Extension(
     sources=sources,
     extra_compile_args=args)
 
-setup(name="pyffish_alice", version="0.0.3",
+setup(name="pyffish_alice", version="0.0.4",
       description="Fairy-Stockfish alice branch Python wrapper",
       long_description=long_description,
       long_description_content_type="text/markdown",
