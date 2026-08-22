@@ -468,6 +468,25 @@ describe('board.result()', function () {
   })
 })
 
+describe('Dobutsu game end conditions', function () {
+  it('requires a safe lion for a try win', () => {
+    const fen = '1L1/1g1/1G1/1l1[] w - - 0 1';
+    const cases = [
+      ['b2a2', '0-1'],
+      ['b4a4', '1-0'],
+      ['b2b3', '1/2-1/2'],
+      ['b4b3', '*'],
+    ];
+
+    for (const [move, result] of cases) {
+      const board = new ffish.Board('dobutsu', fen);
+      chai.expect(board.push(move), move).to.equal(true);
+      chai.expect(board.result(), move).to.equal(result);
+      board.delete();
+    }
+  });
+});
+
 describe('board.checkedPieces()', function () {
   it("it returns the squares of all checked royal pieces in a concatenated string", () => {
     let board = new ffish.Board();
