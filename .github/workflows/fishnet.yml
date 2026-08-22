@@ -1,0 +1,110 @@
+name: Fishnet binaries
+run-name: Fishnet binaries for ${{ inputs.source_ref }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Git ref to build
+        required: true
+        default: master
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86-64
+            asset: stockfish-windows-amd64.exe
+          - arch: x86-64-modern
+            asset: stockfish-windows-amd64-modern.exe
+          - arch: x86-64-bmi2
+            asset: stockfish-windows-amd64-bmi2.exe
+
+    steps:
+      - uses: al-cheb/configure-pagefile-action@v1.5
+        with:
+          minimum-size: 16GB
+          maximum-size: 16GB
+          disk-root: "C:"
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_ref }}
+      - name: Build
+        working-directory: src
+        run: make clean && make -j build COMP=mingw ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
+      - name: Bench
+        working-directory: src
+        run: .\${{ matrix.asset }} bench
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.asset }}
+          path: src/${{ matrix.asset }}
+          if-no-files-found: error
+          compression-level: 9
+
+  linux:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86-64
+            asset: stockfish-x86_64
+          - arch: x86-64-modern
+            asset: stockfish-x86_64-modern
+          - arch: x86-64-bmi2
+            asset: stockfish-x86_64-bmi2
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_ref }}
+      - name: Build
+        working-directory: src
+        run: make clean && make -j build COMP=gcc ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
+      - name: Bench
+        working-directory: src
+        run: ./${{ matrix.asset }} bench
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.asset }}
+          path: src/${{ matrix.asset }}
+          if-no-files-found: error
+          compression-level: 9
+
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-intel
+            arch: x86-64
+            asset: stockfish-osx-x86_64
+          - runner: macos-14
+            arch: apple-silicon
+            asset: stockfish-osx-arm64
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_ref }}
+      - name: Build
+        working-directory: src
+        run: make clean && make -j build COMP=clang ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
+      - name: Bench
+        working-directory: src
+        run: ./${{ matrix.asset }} bench
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.asset }}
+          path: src/${{ matrix.asset }}
+          if-no-files-found: error
+          compression-level: 9
