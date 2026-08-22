@@ -1,7 +1,10 @@
 name: Fishnet binaries
-run-name: Fishnet binaries for ${{ inputs.source_ref }}
+run-name: Fishnet binaries for ${{ inputs.source_ref || github.sha }}
 
 on:
+  pull_request:
+    paths:
+      - .github/workflows/fishnet.yml
   workflow_dispatch:
     inputs:
       source_ref:
@@ -35,7 +38,7 @@ jobs:
           disk-root: "C:"
       - uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.source_ref }}
+          ref: ${{ inputs.source_ref || github.sha }}
       - name: Build
         working-directory: src
         run: make clean && make -j build COMP=mingw ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
@@ -51,6 +54,7 @@ jobs:
 
   linux:
     runs-on: ubuntu-24.04
+    container: ubuntu:20.04
     strategy:
       fail-fast: false
       matrix:
@@ -63,9 +67,11 @@ jobs:
             asset: stockfish-x86_64-bmi2
 
     steps:
+      - name: Install build tools
+        run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes build-essential git
       - uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.source_ref }}
+          ref: ${{ inputs.source_ref || github.sha }}
       - name: Build
         working-directory: src
         run: make clean && make -j build COMP=gcc ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
@@ -95,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.source_ref }}
+          ref: ${{ inputs.source_ref || github.sha }}
       - name: Build
         working-directory: src
         run: make clean && make -j build COMP=clang ARCH=${{ matrix.arch }} EXE=${{ matrix.asset }} largeboards=yes all=yes && strip ${{ matrix.asset }}
