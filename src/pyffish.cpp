@@ -309,16 +309,14 @@ extern "C" PyObject* pyffish_applyMove(PyObject* self, PyObject *args) {
         Py_XDECREF(moveStrings);
         return NULL;
     }
-    PyObject* result = Py_BuildValue("{s:s,s:s,s:O,s:O,s:O,s:(OO),s:(Oi),s:(Oi),s:O}",
-        "san", san.c_str(), "fen", resultFen.c_str(),
-        "check", checked(pos) ? Py_True : Py_False,
-        "has_legal_moves", legalMoves.size() ? Py_True : Py_False,
-        "legal_moves", moveStrings ? moveStrings : Py_None,
-        "insufficient_material", has_insufficient_material(WHITE, pos) ? Py_True : Py_False,
-                                 has_insufficient_material(BLACK, pos) ? Py_True : Py_False,
-        "immediate_game_end", immediateEnd ? Py_True : Py_False, immediateEnd ? immediateResult : VALUE_DRAW,
-        "optional_game_end", optionalEnd ? Py_True : Py_False, optionalEnd ? optionalResult : VALUE_DRAW,
-        "game_result", gameResult);
+    PyObject* result = Py_BuildValue("(ssOOO(OO)(Oi)(Oi)O)",
+        san.c_str(), resultFen.c_str(), checked(pos) ? Py_True : Py_False,
+        legalMoves.size() ? Py_True : Py_False, moveStrings ? moveStrings : Py_None,
+        has_insufficient_material(WHITE, pos) ? Py_True : Py_False,
+        has_insufficient_material(BLACK, pos) ? Py_True : Py_False,
+        immediateEnd ? Py_True : Py_False, immediateEnd ? immediateResult : VALUE_DRAW,
+        optionalEnd ? Py_True : Py_False, optionalEnd ? optionalResult : VALUE_DRAW,
+        gameResult);
     Py_XDECREF(moveStrings);
     Py_DECREF(gameResult);
     return result;
