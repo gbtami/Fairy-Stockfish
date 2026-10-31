@@ -99,7 +99,7 @@ jobs:
           - runner: macos-15-intel
             arch: x86-64
             asset: stockfish-osx-x86_64
-          - runner: macos-14
+          - runner: macos-15
             arch: apple-silicon
             asset: stockfish-osx-arm64
     runs-on: ${{ matrix.runner }}
